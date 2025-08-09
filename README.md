@@ -1,5 +1,5 @@
 
-`elog4cpp` : means that this is a very `easy` to use and very `efficient` in performance c++ logging library. It supports c++11 and above, and is fully cross-platform.
+`elog4` : means that this is a very `easy` to use and very `efficient` in performance c++ logging library. It supports c++11 and above, and is fully cross-platform.
 
 The use of `easy` is reflected in:
 * Simple api, you only need to focus on an `elog::Log` class, or static method `Log::<LEVEL>`, or macro definition `ELG_<LEVEL>`.
