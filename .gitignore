@@ -5,6 +5,7 @@ build-*
 log
 *.log
 .idea
+.cache
 log.txt
 .vscode
 .vs
