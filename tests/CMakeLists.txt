@@ -1,33 +1,37 @@
-CPMAddPackage(
-        doctest
-        GIT_REPOSITORY https://github.com/doctest/doctest.git
-        GIT_TAG v2.4.9
-        GIT_SHALLOW TRUE
+# copied from https://github.com/google/googletest/blob/main/googletest/README.md
+include(FetchContent)
+
+if(${CMAKE_VERSION} VERSION_LESS 3.14)
+    macro(FetchContent_MakeAvailable NAME)
+        FetchContent_GetProperties(${NAME})
+        if(NOT ${NAME}_POPULATED)
+            FetchContent_Populate(${NAME})
+            add_subdirectory(${${NAME}_SOURCE_DIR} ${${NAME}_BINARY_DIR})
+        endif()
+    endmacro()
+endif()
+
+FetchContent_Declare(
+        googletest
+        # Specify the commit you depend on and update it regularly.
+        URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
 )
-CPMAddPackage(
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+FetchContent_Declare(
         nanobench
         GIT_REPOSITORY https://github.com/martinus/nanobench.git
         GIT_TAG v4.1.0
         GIT_SHALLOW TRUE)
-
-add_definitions(-DPROJECT_ROOT="${PROJECT_SOURCE_DIR}/")
+FetchContent_MakeAvailable(nanobench)
 
 file(GLOB TEST_FILES
-        "${PROJECT_SOURCE_DIR}/tests/test_*.cc"
-)
-file(GLOB BENCH_FILES
-        "${PROJECT_SOURCE_DIR}/tests/bench_*.cc"
-)
-
-message(STATUS "TEST_FILES:${TEST_FILES}\n BENCH_FILES:${BENCH_FILES}")
-
-
+        "${PROJECT_SOURCE_DIR}/tests/*.h"
+        "${PROJECT_SOURCE_DIR}/tests/*.cc"
+        )
 add_executable(unittest ${TEST_FILES})
-target_link_libraries(unittest PRIVATE doctest_with_main elog nanobench)
-add_test(NAME ${PROJECT_NAME}-unittest COMMAND unittest)
-
-add_executable(benchtest ${BENCH_FILES})
-target_link_libraries(benchtest PRIVATE doctest_with_main elog nanobench)
-
-add_executable(perf perf.cc)
-target_link_libraries(perf elog)
+target_link_libraries(unittest PRIVATE gtest_main my-logger nanobench)
+target_include_directories(unittest PRIVATE ${PROJECT_SOURCE_DIR}/include)
+add_test(NAME my-logger-unittest COMMAND unittest)
