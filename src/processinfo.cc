@@ -19,6 +19,7 @@
 
 using namespace elog;
 
+/* 使用 thread_local 定义一个线程本地变量（变量的生命周期与线程相同）缓存系统调用结果，保证只进行一次系统调用 */
 elog::pid_t ProcessInfo::GetPid()
 {
 #if defined(_WIN32)
