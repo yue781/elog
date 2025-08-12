@@ -1,39 +1,21 @@
+# elog 是一个非常易于使用且在性能方面非常高效的c++日志库。它支持c++11及以上版本，完全跨平台。
 
-`elog4cpp` : means that this is a very `easy` to use and very `efficient` in performance c++ logging library. It supports c++11 and above, and is fully cross-platform.
+缓冲区设计
 
-The use of `easy` is reflected in:
-* Simple api, you only need to focus on an `elog::Log` class, or static method `Log::<LEVEL>`, or macro definition `ELG_<LEVEL>`.
-* Formatting output is simple because the [fmt](https://github.com/fmtlib/fmt) library is used for formatting output.
-* Custom formatting is simple because custom `formatter` is supported, and four `formatters` are preconfigured, including defaultFormatter, colorfulFormatter, jsonFormatter, and customFormatter.
-* Easy to configure, supports reading configuration items via `json` file with one click.
-* Easy to introduce, support `cmake` command to introduce and use the project with one click.
+    减少系统调用的次数
 
-Performance `efficiency` is reflected in:
+    减少前端Logger的等待时间
 
-* The latency of outputting a log is only `180ns` synchronously and `120ns` asynchronously, which is at least 4 times the performance of spdlog.
+智能指针的妙用
 
+    减少拷贝次数
 
-## Quick Start
+    减少多线程的加锁临界区
 
-### Requirements
+多线程的引入
 
-* C++11 and above, which is cross-platform
+    采用生产者消费者模型
 
-### Installation and Introduction
+    定时消费，避免饥饿
 
-
-    1. download the project source code via the git command
-        
-
-    2. Add the project to a subproject.
-
-       ```cmake
-       add_subdirectory(elog4cpp)
-       ```
-
-    3. Link `elog` in the target that needs to use the library.
-
-       ```cmake
-       target_link_libraries(target elog)
-       ```
-
+    生产过快，瞬时数据量过大，丢弃并通知前端
