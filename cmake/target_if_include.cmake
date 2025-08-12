@@ -1,8 +1,0 @@
-function(target_if_include target path)
-    if (TARGET ${target})
-        message(WARNING "Target ${target} already exists!")
-    else ()
-        message(STATUS "path:${path}")
-        include(${path})
-    endif ()
-endfunction()
