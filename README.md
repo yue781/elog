@@ -6,7 +6,7 @@ elog 是一个性能非常高效的 C++ 异步日志库，支持五种日志级�
 
 - [缓冲区设计](#缓冲区设计)
 - [多线程的引入](#多线程的引入)
-- [三层级处理](#三层级处理)
+- [三层级设计](#三层级设计)
   - [AsyncLogging](#asynclogging)
   - [LogFile](#logfile)
   - [FileAppender](#fileappender)
