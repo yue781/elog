@@ -33,7 +33,7 @@ elog 是一个性能非常高效的 C++ 异步日志库，支持五种日志级�
 
 - 当前端缓冲区满或超时，则进行一次消费。
 - 消费过程如下：
-  1. push 并更新前端缓存块（curBuffer 和备用缓存块 nextBuffer）。
+  1). push 并更新前端缓存块（curBuffer 和备用缓存块 nextBuffer）。
   2. 交换消费队列的内存（大幅减小临界区）。
   3. 判断队列数据是否过量，过量则丢弃，并通知前端。
   4. 将队列中的缓存块调用 `LogFile` 的 append 方法写入（最终调用 `FileAppender` 的 append）。
